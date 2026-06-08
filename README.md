@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/badge/macOS-11%2B-blue?logo=apple" />
   <img src="https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/PySide6-GUI-41CD52?logo=qt" />
-  <img src="https://img.shields.io/github/license/sjwty/jwt" />
+  <img src="https://img.shields.io/github/license/sjwty/CUMT-Campus-Login-Mac" />
 </p>
 
 <p align="center">
@@ -47,8 +47,8 @@
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/sjwty/jwt.git
-cd jwt
+git clone https://github.com/sjwty/CUMT-Campus-Login-Mac.git
+cd CUMT-Campus-Login-Mac
 
 # 2. 安装依赖
 pip3 install PySide6 requests
