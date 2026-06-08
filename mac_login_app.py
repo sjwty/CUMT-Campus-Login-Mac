@@ -154,11 +154,36 @@ class NetWorker(QObject):
 
     # ---------- 内部实现（运行在 worker 线程）----------
     def _is_logged_in(self) -> bool:
+        # 1. 优先尝试访问外网（最真实的网络状态判定方式，避免 Portal 状态在注销后出现短暂延迟）
         try:
-            r = self.session.get(PORTAL_URL, timeout=5)
-            return any(k in r.text for k in ("已登录", "注销", "在线数量超过限制"))
+            r = self.session.get("http://www.baidu.com", timeout=3)
+            if r.status_code == 200 and "baidu" in r.text:
+                return True
         except Exception:
-            return False
+            pass
+
+        # 2. 如果外网不通，检查局域网 Portal 页面的标题和内容（区分未登录重定向页和登录成功后的状态页）
+        try:
+            r = self.session.get(PORTAL_URL, timeout=3)
+            r.encoding = r.apparent_encoding or "utf-8"
+            text = r.text
+            # 提取 HTML 标题
+            title_match = re.search(r"<title>(.*?)</title>", text, re.IGNORECASE)
+            if title_match:
+                title = title_match.group(1)
+                if "登录" in title or "认证" in title:
+                    return False
+                if "注销" in title:
+                    return True
+            # 备用匹配逻辑（如旧模板关键字）
+            if "type=\"password\"" in text or "user_password" in text:
+                return False
+            if any(k in text for k in ("已登录", "在线数量超过限制")):
+                return True
+        except Exception:
+            pass
+
+        return False
 
     def _do_check(self) -> None:
         logged = self._is_logged_in()
@@ -176,6 +201,7 @@ class NetWorker(QObject):
             f"&wlan_ac_ip=&wlan_ac_name=&jsVersion=3.0&_={ts}"
         )
         hdr = {**BASE_HEADERS, "Host": f"{PORTAL_HOST}:801"}
+        login_success = False
         try:
             r = self.session.get(url, headers=hdr, timeout=8)
             r.raise_for_status()
@@ -188,11 +214,13 @@ class NetWorker(QObject):
 
             if res == "1":
                 self.result.emit("login", "success")
+                login_success = True
             elif res == "0":
                 if code == "1":
                     self.result.emit("login", "wrong_pwd")
                 elif code == "2" or "在线数量超过限制" in msg:
                     self.result.emit("login", "already")
+                    login_success = True
                 else:
                     self.result.emit("login", f"fail:{msg}")
             else:
@@ -200,7 +228,11 @@ class NetWorker(QObject):
         except Exception as e:
             self.result.emit("login", f"error:{e}")
 
-        self.status.emit(self._is_logged_in())
+        # 如果接口明确返回登录成功，我们直接广播 True 状态，而无需再次请求服务器，避免潜在的响应状态同步延迟
+        if login_success:
+            self.status.emit(True)
+        else:
+            self.status.emit(self._is_logged_in())
 
     def _do_logout(self) -> None:
         if not self._is_logged_in():
@@ -228,6 +260,7 @@ class NetWorker(QObject):
             f"&jsVersion=3.0&_={ts - 22}"
         )
         hdr = {**BASE_HEADERS, "Host": f"{PORTAL_HOST}:801"}
+        logout_success = False
         try:
             r   = self.session.get(url, headers=hdr, timeout=8)
             raw = r.text
@@ -236,12 +269,17 @@ class NetWorker(QObject):
             if d.get("result") == "1":
                 self.session = requests.Session()
                 self.result.emit("logout", "success")
+                logout_success = True
             else:
                 self.result.emit("logout", f"fail:{d.get('msg','')}")
         except Exception as e:
             self.result.emit("logout", f"error:{e}")
 
-        self.status.emit(self._is_logged_in())
+        # 注销成功后直接广播 False 状态，避免因服务器会话注销同步延迟导致状态瞬间被拉回绿灯
+        if logout_success:
+            self.status.emit(False)
+        else:
+            self.status.emit(self._is_logged_in())
 
 # ──────────────────────────────────────────────
 #  自定义复选框

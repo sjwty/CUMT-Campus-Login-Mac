@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/badge/macOS-11%2B-blue?logo=apple" />
   <img src="https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/PySide6-GUI-41CD52?logo=qt" />
-  <img src="https://img.shields.io/github/license/sjwtj/jwt" />
+  <img src="https://img.shields.io/github/license/sjwty/jwt" />
 </p>
 
 <p align="center">
@@ -39,7 +39,7 @@
 
 **菜单栏图标颜色：**
 
-🟢 绿色 = 已登录　　🔴 红色 = 未登录　　🟡 黄色 = 检测/登录中
+| 🟢 绿色 = 已登录 | 🔴 红色 = 未登录 | 🟡 黄色 = 检测/登录中 |
 
 ---
 
@@ -47,7 +47,7 @@
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/sjwtj/jwt.git
+git clone https://github.com/sjwty/jwt.git
 cd jwt
 
 # 2. 安装依赖
