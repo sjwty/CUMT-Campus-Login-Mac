@@ -8,8 +8,10 @@
 </p>
 
 <p align="center">
-  基于 <a href="https://github.com/MuQY1818/CUMT_Net_Auto_Login">MuQY1818/CUMT_Net_Auto_Login</a> 移植到 macOS，支持后台常驻、定时检测、断线自动重连。
+  这是一个为中国矿业大学（CUMT）学生开发的校园网自动登录工具。适配 Mac 。于它能够帮助您快速、方便地登录校园网，支持多种运营商，并提供自动登录和开机自启动功能。基于 <a href="https://github.com/MuQY1818/CUMT_Net_Auto_Login">MuQY1818/CUMT_Net_Auto_Login</a> 移植到 macOS，支持后台常驻、定时检测、断线自动重连。
 </p>
+
+
 
 ---
 
