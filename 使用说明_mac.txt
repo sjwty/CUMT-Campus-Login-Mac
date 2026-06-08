@@ -1,0 +1,46 @@
+CUMT 校园网自动登录工具 — macOS 版使用说明
+=============================================
+
+【环境要求】
+  - macOS 11 Big Sur 及以上
+  - Python 3.10+（建议从 https://www.python.org/downloads/ 安装）
+
+【首次使用步骤】
+  1. 打开「终端」(Terminal)
+  2. 拖拽 run_mac.sh 到终端窗口，按回车
+     脚本会自动安装依赖并启动程序
+  3. 输入学号、密码，选择运营商，点击「登录」
+
+  或者手动安装依赖后运行：
+    pip3 install PySide6 requests
+    python3 mac_login_app.py
+
+【功能说明】
+  - 自动登录：勾选后每次启动程序会自动尝试登录
+  - 开机自启：勾选后将写入 ~/Library/LaunchAgents/
+               让程序随系统启动，无需手动打开
+  - 注销：退出当前校园网登录状态
+
+【配置文件位置】
+  ~/Library/Application Support/CUMTAutoLogin/settings.json
+  （学号、密码等设置保存在此，如需重置请删除该文件）
+
+【开机自启文件位置】
+  ~/Library/LaunchAgents/com.cumt.autologin.plist
+  （若要手动关闭开机自启，删除此文件即可）
+
+【注意事项】
+  1. 程序必须在连接校园网 Wi-Fi / 有线网络后才能登录
+  2. 密码以明文 JSON 形式存储在配置文件中，请注意安全
+  3. 不在上网时段或登录设备超限时会有相应提示
+  4. 如遇登录失败，请检查网络是否已连接到校园网
+
+【运营商对应关系】
+  校园网 → @xyw
+  中国电信 → @telecom
+  中国移动 → @cmcc
+  中国联通 → @unicom
+
+=============================================
+项目源码：https://github.com/MuQY1818/CUMT_Net_Auto_Login
+macOS 移植：由 Antigravity AI 辅助完成
