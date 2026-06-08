@@ -75,7 +75,7 @@ xattr -cr dist/CUMT校园网登录.app
 
 ---
 
-## 📁 配置文件位置
+##  配置文件位置
 
 | 类型 | 路径 |
 |------|------|
@@ -92,6 +92,6 @@ xattr -cr dist/CUMT校园网登录.app
 
 ---
 
-## 📜 License
+##  License
 
 MIT License · 基于 [MuQY1818/CUMT_Net_Auto_Login](https://github.com/MuQY1818/CUMT_Net_Auto_Login)
