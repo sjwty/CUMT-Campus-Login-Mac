@@ -30,7 +30,7 @@ from PySide6.QtGui   import QIcon, QPainter, QColor, QFont, QPixmap, QAction
 # ──────────────────────────────────────────────
 #  常量
 # ──────────────────────────────────────────────
-CURRENT_VERSION        = "v2.1.0-mac"
+CURRENT_VERSION        = "v2.1.1-mac"
 PLIST_LABEL            = "com.cumt.autologin"
 PLIST_PATH             = os.path.expanduser(f"~/Library/LaunchAgents/{PLIST_LABEL}.plist")
 CONFIG_PATH            = os.path.expanduser(
