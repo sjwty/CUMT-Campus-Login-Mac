@@ -1,79 +1,77 @@
-# CUMT 校园网自动登录 — macOS 版
+<h1 align="center">🎓 CUMT 校园网自动登录 — macOS 版</h1>
 
-> 本项目基于 [MuQY1818/CUMT_Net_Auto_Login](https://github.com/MuQY1818/CUMT_Net_Auto_Login) 移植到 macOS 平台。
+<p align="center">
+  <img src="https://img.shields.io/badge/macOS-11%2B-blue?logo=apple" />
+  <img src="https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/PySide6-GUI-41CD52?logo=qt" />
+  <img src="https://img.shields.io/github/license/sjwtj/jwt" />
+</p>
+
+<p align="center">
+  基于 <a href="https://github.com/MuQY1818/CUMT_Net_Auto_Login">MuQY1818/CUMT_Net_Auto_Login</a> 移植到 macOS，支持后台常驻、定时检测、断线自动重连。
+</p>
+
+---
+
+## 📥 下载安装（推荐）
+
+> 无需安装 Python，双击即用。
+
+**[👉 点击前往 Releases 页面下载 .app](../../releases/latest)**
+
+1. 下载 `CUMT校园网登录.zip`，解压得到 `CUMT校园网登录.app`
+2. 将 `.app` 拖入「应用程序」文件夹（可选）
+3. **右键 → 打开**（首次需右键打开以绕过 Gatekeeper）
+4. 点击菜单栏图标 → ⚙️ 设置 → 填入学号密码 → 保存
 
 ---
 
 ## ✨ 功能特性
 
-- 🖥️ **菜单栏常驻**：不占 Dock 栏，只在右上角菜单栏显示状态图标
-- 🔄 **后台定时检测**：每隔 N 分钟自动检测网络登录状态（默认 5 分钟，可设置）
-- ⚡ **断线自动重连**：检测到未登录时自动触发登录，并通过系统通知告知结果
-- 📡 **多运营商支持**：校园网 / 中国电信 / 中国移动 / 中国联通
-- 🚀 **开机自启**：使用 macOS `launchd` 实现，勾选后开机静默运行
-- ⚙️ **可视化设置**：点击菜单栏图标 → 设置，可随时修改账号信息和检测间隔
-
-**菜单栏图标颜色含义：**
-
-| 颜色 | 状态 |
+| 功能 | 说明 |
 |------|------|
-| 🟢 绿色 | 已登录校园网 |
-| 🔴 红色 | 未登录 |
-| 🟡 黄色 | 正在检测 / 登录中 |
+| 🖥️ **菜单栏常驻** | 不占 Dock，只在右上角菜单栏显示状态图标 |
+| 🔄 **定时自动检测** | 每隔 N 分钟检测登录状态（默认 5 分钟，可调） |
+| ⚡ **断线自动重连** | 检测到掉线立即重新登录，系统通知告知结果 |
+| 📡 **多运营商** | 校园网 / 中国电信 / 中国移动 / 中国联通 |
+| 🚀 **开机自启** | 勾选后开机静默运行，无需手动打开 |
+| ⚙️ **可视化设置** | 随时修改账号、密码、检测间隔 |
+
+**菜单栏图标颜色：**
+
+🟢 绿色 = 已登录　　🔴 红色 = 未登录　　🟡 黄色 = 检测/登录中
 
 ---
 
-## 🖥️ 环境要求
-
-- macOS 11 Big Sur 及以上
-- Python 3.9+（系统自带即可）
-
----
-
-## 🚀 快速开始
-
-### 方式一：直接运行源码（推荐开发者）
+## 🚀 从源码运行（开发者）
 
 ```bash
-# 1. 安装依赖
+# 1. 克隆项目
+git clone https://github.com/sjwtj/jwt.git
+cd jwt
+
+# 2. 安装依赖
 pip3 install PySide6 requests
 
-# 2. 运行
+# 3. 运行
 python3 mac_login_app.py
 ```
 
-或使用一键启动脚本：
+或使用一键脚本（自动安装依赖）：
 
 ```bash
 bash run_mac.sh
 ```
 
-### 方式二：打包成 .app（推荐普通用户）
+### 自行打包 .app
 
 ```bash
-# 安装打包工具
 pip3 install pyinstaller
-
-# 打包
 python3 -m PyInstaller cumt_mac.spec --noconfirm
 
-# 清除系统隔离标记（首次运行必须）
+# 清除隔离标记
 xattr -cr dist/CUMT校园网登录.app
-
-# 双击 dist/CUMT校园网登录.app 即可使用
 ```
-
----
-
-## 📂 文件说明
-
-| 文件 | 说明 |
-|------|------|
-| `mac_login_app.py` | 主程序源代码 |
-| `requirements_mac.txt` | Python 依赖声明 |
-| `run_mac.sh` | 一键启动脚本 |
-| `cumt_mac.spec` | PyInstaller 打包配置 |
-| `使用说明_mac.txt` | 中文详细说明 |
 
 ---
 
@@ -86,27 +84,14 @@ xattr -cr dist/CUMT校园网登录.app
 
 ---
 
-## 🔧 与原版的主要差异（Windows → macOS）
-
-| 项目 | Windows 原版 | macOS 版 |
-|------|-------------|---------|
-| GUI 框架 | PyQt5 | PySide6 |
-| 开机自启 | Windows 注册表 | launchd plist |
-| 配置存储 | QSettings（注册表） | JSON 文件 |
-| 应用形态 | 普通窗口程序 | 菜单栏 Agent |
-| 后台检测 | 无 | 定时自动检测并重连 |
-| Dock 显示 | 有 | 无（LSUIElement=True） |
-
----
-
 ## ⚠️ 注意事项
 
-1. 需要连接矿大校园网（`10.2.5.251` 可达）才能使用登录功能
-2. 密码以明文 JSON 形式存储在本地配置文件中，请注意安全
-3. 本工具仅供个人便捷上网使用，请遵守学校网络使用规定
+- 需连接矿大校园网（`10.2.5.251` 可达）才能登录
+- 密码以明文 JSON 存储在本地，请注意安全
+- 仅供个人便捷上网，请遵守学校网络规定
 
 ---
 
 ## 📜 License
 
-基于原项目 [MIT License](https://github.com/MuQY1818/CUMT_Net_Auto_Login/blob/main/LICENSE)
+MIT License · 基于 [MuQY1818/CUMT_Net_Auto_Login](https://github.com/MuQY1818/CUMT_Net_Auto_Login)
