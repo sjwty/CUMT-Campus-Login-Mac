@@ -1,4 +1,4 @@
-<h1 align="center"> CUMT 校园网自动登录 — macOS 版</h1>
+<h1 align="center"> CUMT（矿大）中国矿业大学校园网自动登录 MacOS 版</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/macOS-11%2B-blue?logo=apple" />
